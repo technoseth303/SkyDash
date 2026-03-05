@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "SkyDash"
-include(":app")
+include(":app")       // ← this MUST be here (exactly like this)
