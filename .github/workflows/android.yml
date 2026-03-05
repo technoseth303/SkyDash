@@ -17,11 +17,37 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    # Create Gradle wrapper (since your repo doesn't have it yet)
+    - name: Install Gradle CLI & generate wrapper
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gradle
+        gradle --version
+        gradle wrapper --gradle-version 8.4 --distribution-type all
+        ls -la
+        ls -la gradle/wrapper
+
     - name: Grant execute permissions
       run: chmod +x gradlew
 
+    # Install Android SDK (commandline tools + platform/build-tools)
+    - name: Set up Android SDK
+      run: |
+        ANDROID_SDK_ROOT=$HOME/android-sdk
+        mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
+        cd /tmp
+        curl -Lo cmdtools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+        unzip -q cmdtools.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
+        mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses
+        "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+          "platform-tools" \
+          "platforms;android-34" \
+          "build-tools;34.0.0"
+        echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug --no-daemon --stacktrace
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
