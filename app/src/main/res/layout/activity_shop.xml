@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gold"
+            android:text="Coins: 0"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upgrades"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btnSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Speed Boost"/>
+
+        <Button
+            android:id="@+id/btnMagnet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coin Magnet"
+            android:layout_marginTop="12dp"/>
+
+        <Button
+            android:id="@+id/btnShield"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Shield"
+            android:layout_marginTop="12dp"/>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:layout_marginTop="24dp"/>
+
+    </LinearLayout>
+</ScrollView>
