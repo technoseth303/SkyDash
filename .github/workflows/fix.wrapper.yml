@@ -1,0 +1,40 @@
+name: Fix Gradle Wrapper (generate + commit)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Gradle 8.4
+        run: |
+          curl -sLo gradle.zip https://services.gradle.org/distributions/gradle-8.4-bin.zip
+          unzip -q gradle.zip
+          echo "$PWD/gradle-8.4/bin" >> $GITHUB_PATH
+
+      - name: Generate wrapper files
+        run: |
+          gradle wrapper --gradle-version 8.4 --distribution-type all
+          chmod +x gradlew
+
+      - name: Commit wrapper files back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Force-add wrapper jar in case .gitignore blocks *.jar
+          git add gradlew gradlew.bat gradle/wrapper/gradle-wrapper.properties
+          git add -f gradle/wrapper/gradle-wrapper.jar
+
+          git commit -m "Add Gradle wrapper files" || echo "No changes to commit"
+          git push
+          
