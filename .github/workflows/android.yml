@@ -15,14 +15,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Android/AGP modern builds expect JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: "17"
 
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
+      # Install Gradle (so we can generate the wrapper even if wrapper JAR is missing)
+      - name: Install Gradle 8.4
+        run: |
+          curl -sLo gradle.zip https://services.gradle.org/distributions/gradle-8.4-bin.zip
+          unzip -q gradle.zip
+          echo "$PWD/gradle-8.4/bin" >> $GITHUB_PATH
+
+      # Generate wrapper files (creates gradlew + gradle/wrapper/gradle-wrapper.jar)
+      - name: Generate Gradle Wrapper
+        run: |
+          gradle wrapper --gradle-version 8.4 --distribution-type all
+          chmod +x ./gradlew
 
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
