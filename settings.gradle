@@ -1,8 +1,8 @@
-// File: SkyDash/settings.gradle
+// SkyDash/settings.gradle
 
 pluginManagement {
     repositories {
-        // AGP comes from Google's Maven repo
+        // AGP is hosted on Google's Maven repository
         google()
         mavenCentral()
         gradlePluginPortal()
