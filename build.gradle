@@ -1,12 +1,10 @@
-// Root build.gradle
-
 plugins {
-    id 'com.android.application' version '8.4.2' apply false
-    id 'com.android.library'     version '8.4.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.9.24' apply false
+    id 'com.android.application' apply false
+    id 'com.android.library'     apply false
+    id 'org.jetbrains.kotlin.android' apply false
 }
 
-// Optional housekeeping task
+// Optional housekeeping
 tasks.register('clean', Delete) {
     delete rootProject.layout.buildDirectory
 }
