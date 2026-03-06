@@ -17,10 +17,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Make Gradle wrapper executable
-        run: chmod +x gradlew
+      # Install Gradle 8.4 (bypass wrapper JAR completely)
+      - name: Set up Gradle 8.4
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.4
 
-      # Install Android SDK (commandline tools + required platforms/build-tools)
+      # Android SDK (commandline tools + needed packages)
       - name: Set up Android SDK
         run: |
           ANDROID_SDK_ROOT=$HOME/android-sdk
@@ -38,8 +41,9 @@ jobs:
             "platforms;android-34" \
             "build-tools;34.0.0"
 
+      # Use the installed Gradle (NOT ./gradlew)
       - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
