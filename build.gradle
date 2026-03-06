@@ -1,15 +1,14 @@
-// File: SkyDash/build.gradle
+// SkyDash/build.gradle
 
 plugins {
-    // Android Gradle Plugin (AGP)
+    // Android Gradle Plugin (AGP) - must include a version for plugin resolution
     id 'com.android.application' version '8.3.2' apply false
     id 'com.android.library' version '8.3.2' apply false
 
-    // ✅ Keep ONLY if you use Kotlin in your Android app:
+    // Keep ONLY if your project uses Kotlin; otherwise you can remove it
     id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
 }
 
-// Optional (common) clean task
 tasks.register("clean", Delete) {
     delete rootProject.layout.buildDirectory
 }
